@@ -1,12 +1,27 @@
 services:
   api:
-    build:
-      context: .
+    image: ghcr.io/shyrogan/trad_service:latest
+    restart: unless-stopped
     environment:
       - ADDRESS=0.0.0.0:3000
+    ports:
+      - 80:3000
   prometheus:
     image: prom/prometheus
+    restart: unless-stopped
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - ./data/prometheus:/prometheus
+  grafana:
+    image: grafana/grafana-enterprise
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana-data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=kekw
+    depends_on:
+      - prometheus
 
