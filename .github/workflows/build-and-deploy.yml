@@ -1,0 +1,38 @@
+name: Build docker image and deploy
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  packages: write
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run tests in project
+        run: cargo test
+  build-docker-image:
+    runs-on: ubuntu-latest
+    needs:
+      - run-tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Login to Docker Registry
+        uses: docker/login-action@v3
+        with:
+          registry: https://ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push to Docker
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/Shyrogan/trad_service:latest
+            ghcr.io/Shyrogan/trad_service:${{ github.sha }}

@@ -1,0 +1,11 @@
+global:
+  scape_interval: 15s
+  evalutation_interval: 15s
+
+scrape_configs:
+  - job_name: api 
+    static_configs:
+      - targets: ['api:3000'] 
+        labels:
+          service: 'api'
+          environment: 'production'
