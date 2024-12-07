@@ -34,5 +34,5 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/Shyrogan/trad_service:latest
-            ghcr.io/Shyrogan/trad_service:${{ github.sha }}
+            ghcr.io/shyrogan/trad_service:latest
+            ghcr.io/shyrogan/trad_service:${{ github.sha }}
