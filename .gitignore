@@ -1,1 +1,5 @@
 /target
+# Devenv
+.devenv
+.devenv.flake.nix
+.pre-commit-config.yaml
